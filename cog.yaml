@@ -1,7 +1,7 @@
 ---
 build:
     gpu: false
-    python_version: '3.9'
+    python_version: '3.12'
     python_packages:
         - pydantic==1.10.8
         - torch==2.4.1
