@@ -11,4 +11,3 @@ scipy
 timm
 open3d
 trimesh
-torch-scatter
