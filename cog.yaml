@@ -7,5 +7,14 @@ build:
         - torch==2.4.1
     run:
         - curl -o /usr/local/bin/pget -L "https://github.com/replicate/pget/releases/latest/download/pget_$(uname -s)_$(uname -m)" && chmod +x /usr/local/bin/pget
+        - pip install torch==2.1.0 torchvision==0.16.0 torchaudio==2.1.0 --index-url https://download.pytorch.org/whl/cu121
+        - pip install -r thirdparty/SAMPart3D/requirements.txt
+        - cd thirdparty/SAMPart3D/libs/pointops
+        - python setup.py install
+        - cd -
+        - pip install spconv-cu120
+        - pip install ninja git+https://github.com/NVlabs/tiny-cuda-nn/#subdirectory=bindings/torch
+        - pip install --extra-index-url=https://pypi.nvidia.com cudf-cu11==24.6.* cuml-cu11==24.6.*
+
 predict: predict.py:Predictor     # Prediction endpoints
 train: train.py:train     # Train endpoints
