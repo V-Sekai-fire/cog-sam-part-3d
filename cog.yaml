@@ -5,7 +5,7 @@ build:
     python_version: '3.11'
     run:
         - curl -o /usr/local/bin/pget -L "https://github.com/replicate/pget/releases/latest/download/pget_$(uname -s)_$(uname -m)" && chmod +x /usr/local/bin/pget
-        - pip install torch==2.1.0 torchvision==0.16.0 torchaudio==2.1.0 --index-url https://download.pytorch.org/whl/cu121
+        - pip install torch==2.1.0 torchvision==0.16.0 torchaudio==2.1.0 --index-url https://download.pytorch.org/whl/cu118
         - git clone https://github.com/V-Sekai-fire/SAMPart3D.git SAMPart3D
         - pip install -r SAMPart3D/requirements.txt
         - cd SAMPart3D/libs/pointops && python setup.py install
