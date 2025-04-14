@@ -12,8 +12,6 @@ build:
         - pip install spconv-cu121
         - TCNN_CUDA_ARCHITECTURES=86 pip install ninja git+https://github.com/NVlabs/tiny-cuda-nn/#subdirectory=bindings/torch
         - pip install --extra-index-url=https://pypi.nvidia.com cudf-cu11==24.6.* cuml-cu11==24.6.*
-        - mkdir -p thirdparty/blender
-        - cd thirdparty/blender
-        - wget -qO- https://download.blender.org/release/Blender4.2/blender-4.2.8-linux-x64.tar.xz | tar -xJ --strip-components=1
+        - mkdir -p thirdparty/blender && cd thirdparty/blender && wget -qO- https://download.blender.org/release/Blender4.2/blender-4.2.8-linux-x64.tar.xz | tar -xJ --strip-components=1
 
 predict: predict.py:Predictor
