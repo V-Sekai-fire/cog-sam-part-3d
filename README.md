@@ -33,7 +33,7 @@ To test the model locally before deployment:
 pip install cog
 
 # Run a prediction with a local image
-cog predict -i  blender_path=@thirdparty/jacket.glb
+cog predict -i  mesh_path=@thirdparty/jacket.glb
 ```
 
 ## License
