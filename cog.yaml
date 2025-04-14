@@ -5,11 +5,10 @@ build:
     python_version: '3.10'
     run:
         - curl -o /usr/local/bin/pget -L "https://github.com/replicate/pget/releases/latest/download/pget_$(uname -s)_$(uname -m)" && chmod +x /usr/local/bin/pget
-        - export TORCH_CUDA_ARCH_LIST="7.5;8.0;8.6"
-        - pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu121
+        - pip install torch==2.1.0 torchvision==0.16.0 torchaudio==2.1.0 --index-url https://download.pytorch.org/whl/cu121
         - git clone https://github.com/V-Sekai-fire/SAMPart3D.git SAMPart3D
         - pip install -r SAMPart3D/requirements.txt
-        - cd SAMPart3D/libs/pointops && python setup.py install
+        - cd SAMPart3D/libs/pointops && TORCH_CUDA_ARCH_LIST="7.5;8.0;8.6" python setup.py install
         - pip install spconv-cu121
         - pip install ninja git+https://github.com/NVlabs/tiny-cuda-nn/#subdirectory=bindings/torch
         - pip install --extra-index-url=https://pypi.nvidia.com cudf-cu11==24.6.* cuml-cu11==24.6.*
