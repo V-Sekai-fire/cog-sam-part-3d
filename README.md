@@ -1,41 +1,58 @@
-# cog-generic-template
-
-A serverless deployment of the state-of-the-art Template Model on Replicate.
+# SAMPart3D: Segment Any Part in 3D Objects
 
 ## Overview
 
-This repository contains the code necessary to deploy the Template Model as a serverless endpoint on Replicate.
+SAMPart3D is a project designed to segment any part in 3D objects. It is inspired by several repositories, including PointTransformerV3, Pointcept, FeatUp, dinov2, segment-anything, and PartSLIP2. Many thanks to the authors for sharing their codes.
 
-## How to Use Custom Models
+## 🔧 Setup
 
-Customizing the deployment with your own model weights is simple:
+Please refer to [INSTALL.md](INSTALL.md) for installation instructions.
 
-1. Add your model weights file to the root of this repository.
-2. Update the model initialization in [predict.py](predict.py). For example:
+## 🚀 Running SAMPart3D
 
-   ```python
-   # Change this line in predict.py
-   self.model = models.get("generic_template_model", checkpoint_path="your-custom-model.pth", num_classes=17)
-   ```
+### 1. Train
 
-3. Follow the [Replicate deployment guide](https://replicate.com/docs/guides/deploy-a-custom-model) to publish your model.
+Change the rendering `data_root`, `mesh_root`, and `backbone_weight_path` in `configs/sampart3d/sampart3d-trainmlp-render16views.py`.
 
-## How to use with API
-
-Learn more about the available API endpoints from the [Replicate API Documentation](https://replicate.com/hardikdava/rf-detr/api).
-
-## Local Development and Testing
-
-To test the model locally before deployment:
+Run the training script:
 
 ```bash
-# Install cog if you haven't already
-pip install cog
+sh scripts/train.sh -g ${NUM_GPU} -d ${DATASET_NAME} -c ${CONFIG_NAME} -n ${EXP_NAME} -o ${OBJECT_UID}
+```
 
-# Run a prediction with a local image
-cog predict -i  mesh_path=@thirdparty/jacket.glb
+### 2. Test
+
+Run the evaluation script:
+
+```bash
+sh scripts/eval.sh -g ${NUM_GPU} -d ${DATASET_NAME} -n ${EXP_NAME} -w ${WEIGHT_NAME}
+```
+
+### 3. Highlight 3D Segments
+
+Set `render_dir`, `mesh_path`, `results_dir`, and `save_dir` in `tools/highlight_parts.py` and run:
+
+```bash
+python tools/highlight_parts.py
+```
+
+## 📚 Dataset: PartObjaverse-Tiny
+
+Please refer to [PartObjaverse-Tiny.md](PartObjaverse-Tiny.md) for dataset details.
+
+## Acknowledgement
+
+If you find SAMPart3D useful in your project, please cite our work:
+
+```bibtex
+@article{yang2024sampart3d,
+  title={SAMPart3D: Segment Any Part in 3D Objects},
+  author={Yang, Yunhan and Huang, Yukun and Guo, Yuan-Chen and Lu, Liangjun and Wu, Xiaoyang and Lam, Edmund Y and Cao, Yan-Pei and Liu, Xihui},
+  journal={arXiv preprint arXiv:2411.07184},
+  year={2024}
+}
 ```
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE](https://github.com/V-Sekai-fire/cog-template/blob/main/LICENSE) file for details.
+This project is licensed under the MIT License - see the [LICENSE](https://github.com/V-Sekai-fire/cog-sam-part-3d/blob/main/LICENSE) file for details.
