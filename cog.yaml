@@ -1,0 +1,40 @@
+---
+build:
+    gpu: true
+    system_packages:
+        - "libgl1-mesa-glx"
+        - "libglib2.0-0"
+    cuda: "12.1"
+    python_version: '3.11'
+    python_packages:
+        # Build dependencies (must be first)
+        - "pip>=24.0"
+        - "packaging>=24.0"
+        - "setuptools>=41.0.0"
+        - "wheel"
+        - "ninja"
+        - "torch==2.1.0"
+        - "torchvision==0.16.0"
+        - "torchaudio==2.1.0"
+        - "spconv-cu121"
+        - "Pillow"
+        - "opencv-python"
+        - "transformers"
+        - "einops"
+        - "scikit-learn"
+        - "tensorboard"
+        - "tensorboardx"
+        - "yapf"
+        - "addict"
+        - "scipy"
+        - "timm"
+        - "open3d"
+        - "trimesh"
+        - "torch-scatter"
+    run:
+        - curl -o /usr/local/bin/pget -L "https://github.com/replicate/pget/releases/latest/download/pget_$(uname -s)_$(uname -m)" && chmod +x /usr/local/bin/pget
+        - git clone https://github.com/V-Sekai-fire/SAMPart3D.git SAMPart3D
+        - cd SAMPart3D/libs/pointops && TORCH_CUDA_ARCH_LIST="7.5;8.0;8.6" python setup.py install
+        - TCNN_CUDA_ARCHITECTURES=86 pip install ninja git+https://github.com/NVlabs/tiny-cuda-nn/#subdirectory=bindings/torch
+        - pip install --extra-index-url=https://pypi.nvidia.com cudf-cu11==24.6.* cuml-cu11==24.6.*
+predict: predict.py:Predictor
