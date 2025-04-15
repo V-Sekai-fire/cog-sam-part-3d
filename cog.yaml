@@ -31,12 +31,10 @@ build:
         - "open3d"
         - "trimesh"
         - "torch-scatter"
-        - "cudf-cu11==24.6.*"
-        - "cuml-cu11==24.6.*"
-
     run:
         - curl -o /usr/local/bin/pget -L "https://github.com/replicate/pget/releases/latest/download/pget_$(uname -s)_$(uname -m)" && chmod +x /usr/local/bin/pget
         - git clone https://github.com/V-Sekai-fire/SAMPart3D.git SAMPart3D
         - cd SAMPart3D/libs/pointops && TORCH_CUDA_ARCH_LIST="7.5;8.0;8.6" python setup.py install
         - TCNN_CUDA_ARCHITECTURES=86 pip install ninja git+https://github.com/NVlabs/tiny-cuda-nn/#subdirectory=bindings/torch
+        - pip install --extra-index-url=https://pypi.nvidia.com cudf-cu11==24.6.* cuml-cu11==24.6.*
 predict: predict.py:Predictor
