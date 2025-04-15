@@ -10,7 +10,7 @@ source venv/bin/activate
 
 pip install --upgrade pip packaging setuptools wheel ninja
 
-pip install torch==2.1.0 torchvision==0.16.0 torchaudio==2.1.0 --index-url https://download.pytorch.org/whl/cu121
+pip install torch torchvision torchaudio
 
 pip install spconv-cu121 \
     Pillow opencv-python transformers einops scikit-learn tensorboard tensorboardx \
