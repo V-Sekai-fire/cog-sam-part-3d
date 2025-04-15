@@ -1,13 +1,23 @@
 from cog import BasePredictor, BaseModel, Path, Input
 import subprocess
 import tempfile
+import os
+
+BLENDER_PATH = "thirdparty/blender/blender"
+BLENDER_DOWNLOAD_CMD = (
+    "mkdir -p thirdparty/blender && "
+    "cd thirdparty/blender && "
+    "wget -qO- https://download.blender.org/release/Blender4.2/blender-4.2.8-linux-x64.tar.xz | "
+    "tar -xJ --strip-components=1"
+)
 
 class ModelOutput(BaseModel):
     output_dir: Path
 
 class Predictor(BasePredictor):
     def setup(self):
-        pass
+        if not os.path.exists(BLENDER_PATH):
+            subprocess.run(BLENDER_DOWNLOAD_CMD, shell=True, check=True)
     
     def predict(self, mesh_path: Path = Input(description="The 3d object to segment."), types: str = "glb") -> ModelOutput:
         """
@@ -22,9 +32,8 @@ class Predictor(BasePredictor):
             arg_file.write(f"-b\n-P\nblender_render_16views.py\n{mesh_path}\n{types}\n{out_dir}\n")
             arg_file_path = arg_file.name
 
-        blender_path = "thirdparty/blender/blender"
         command = [
-            blender_path,
+            BLENDER_PATH,
             f"@{arg_file_path}",
         ]
 
